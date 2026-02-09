@@ -1,0 +1,14 @@
+langchain==1.2.9 # Framework for LLM orchestration and data pipelining
+langchain-community==0.4.1 # Community-contributed loaders and tools (PDFs, Web)
+langchain-ollama==1.0.1 # Integration wrapper for local Ollama model execution
+ollama==0.6.1 # Direct Python client for the Ollama API
+playwright==1.57.0 # Headless browser for dynamic web scraping (FUNC02, FUNC04)
+chromadb==1.5.0 # Persistent vector database for RAG and topic storage (FUNC05)
+sentence-transformers==5.2.2 # Memory-efficient local embedding generation (optimized for 8GB RAM)
+beautifulsoup4==4.14.3 # Parsing logic for static web content extraction
+gtts==2.5.4 # Google Text-to-Speech for audio synthesis (FUNC06)
+matplotlib==3.10.8 # Generating cluster visualizations and trend charts
+pypdf==6.7.0 # Standard library for PDF document parsing and chunking
+loguru==0.7.3 # Advanced logging for real-time pipeline monitoring
+rich==14.2.0 # Terminal formatting for status bars and progress tracking (Phase 6)
+python-dotenv==1.2.1 # Managing local environment variables and configurations

@@ -1,0 +1,23 @@
+[ USER INPUT / DATA SOURCES ]
+                   |
+     +-------------V-------------+
+     |  1. INGESTION ENGINE      | <--- Alumn 1 (FUNC04/02)
+     | (Playwright / WebLoader)  |
+     +-------------+-------------+
+                   |
+     +-------------V-------------+
+     |  2. DATA TRANSFORMATION   | <--- Alumn 2 (FUNC03)
+     |  (Zero-Shot Translation)  |
+     +-------------+-------------+
+                   |
+     +-------------V-------------+      +-----------------------+
+     |  3. VECTOR STORAGE        | <--- | 5. TOPIC CLUSTERING   |
+     |  (ChromaDB + FastEmbed)   | <--- | (ChromaDB / Matplot)  |
+     +-------------+-------------+      +-----------------------+
+           |               ^                     ^  (Alumn 5 - FUNC05)
+           |               |                     |
+     +-----V---------------V-----+      +--------+--------------+
+     |  4. INTELLIGENCE LAYER    |      | 6. OUTPUT & SPEECH    |
+     | (Llama 3.2 via Ollama)    | ---> | (gTTS / Piper / Logs) |
+     +---------------------------+      +-----------------------+
+           (Alumn 4 - FUNC01)             (Alumn 6 - FUNC06)

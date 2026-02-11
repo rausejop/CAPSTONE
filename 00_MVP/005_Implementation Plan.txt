@@ -1,0 +1,63 @@
+================================================================================
+     SYSTEM: MULTI-MODAL INTELLIGENCE PIPELINE - IMPLEMENTATION PLAN
+================================================================================
+ID: Version: 1.1 | Environment: Windows 11 (8GB RAM) | Date: Feb 2026
+================================================================================
+
+1. REQUIREMENTS GATHERING (Stakeholder Needs Definition)
+--------------------------------------------------------------------------------
+* Data collection from multiple distributed agents.
+* Thematic focus: USA-Iran Geopolitics using authoritative sources.
+* Physical Constraint: Operation on 8GB free RAM via sequential processing.
+* Data Scope: Strictly text strings; discard all binary objects like images, video, and audio.
+
+2. SYSTEM ANALYSIS (System Requirements Analysis)
+--------------------------------------------------------------------------------
+* Communication Standard: Use of FastAPI for RESTful interfaces between the engine and agents.
+* Encoding Verification: Strict use of Universal Character Encoding (UTF-8).
+* OOM Risk Mitigation: Use of 4-bit quantization for Llama 3.2 or Mistral models.
+
+3. SYSTEM DESIGN (Logical and Physical Architecture)
+--------------------------------------------------------------------------------
+* Architecture: "Collector -> Transformer -> Synthesizer" modular flow.
+* Ingestion: Capture browser render (DOM) via Playwright to bypass API limits.
+* Intelligence Layer: Llama 3.2 (3B) or Mistral Nemo (12B) via Ollama API.
+* Storage: Persistent ChromaDB on local disk to manage RAM efficiency.
+
+4. MODULE DESIGN (Detailed Design by Managers)
+--------------------------------------------------------------------------------
+* M1 (Ingestion): SourceFilter class for URL whitelisting and keyword routing.
+* M2 (Transformation): DataExporter module for validating and writing to unified JSON schemas.
+* M3 (VDB): Tokenization functions supporting BPE, SentencePiece, and tiktoken.
+* M4/5 (Analytics): Topic clustering using FastEmbed and visualization via Matplotlib.
+
+5. CODING (Implementation and Software Standards)
+--------------------------------------------------------------------------------
+* PDF Extraction: ETL process using pyPDF wrapper library for text conversion.
+* Integrity: SHA-256 cryptographic hashing to verify record uniqueness.
+* Digital Evidence: Appending X.509v3 certificates as signatures for hash integrity.
+* Cleansing: Use of BeautifulSoup to strip <img>, <video>, and <audio> tags.
+
+6. UNIT TESTING (Component Verification)
+--------------------------------------------------------------------------------
+* UT-IE-01: Validation of multimedia tag stripping to ensure text-only output.
+* UT-DT-01: Verification of unique SHA-256 hash generation per record.
+* UT-VDB-01: Testing tiktoken functionality for compatibility with embedding models.
+
+7. INTEGRATION TESTING (Interface Verification)
+--------------------------------------------------------------------------------
+* INT-01: FastAPI communication check between agents and the central engine.
+* INT-02: Zero-shot translation flow feeding the vector storage.
+* INT-03: Validation of data export into standardized, structured JSON format.
+
+8. SYSTEM TESTING (Total System Verification)
+--------------------------------------------------------------------------------
+* SYS-01: Full sequential pipeline test under the 8GB RAM ceiling.
+* SYS-02: Validation of topic-directed filtering for geopolitical datasets.
+* SYS-03: Audio output synthesis verification using Piper or gTTS engines.
+
+9. ACCEPTANCE TESTING (Stakeholder Validation)
+--------------------------------------------------------------------------------
+* ACC-01: Generation of insights with low latency via 4-bit quantization.
+* ACC-02: Total data integrity confirmed via X.509v3 and SHA-256 signatures.
+================================================================================

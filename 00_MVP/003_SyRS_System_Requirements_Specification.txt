@@ -1,0 +1,153 @@
+===============================================================================
+SYSTEM REQUIREMENTS SPECIFICATION (SyRS): INGESTION & DATA PROCESSING SYSTEM
+Version: 1.0
+===============================================================================
+
+1. INTRODUCTION
+   This document outlines the functional requirements for the Ingestion Engine,
+   Data Transformation layer, and Vector Database components. The system is 
+   designed to aggregate, clean, and structure geopolitical intelligence data.
+
+2. FUNCTIONAL REQUIREMENTS
+
+   2.1 INGESTION ENGINE (IE)
+   ---------------------------------------------------------------------------
+   ID          TITLE             DESCRIPTION
+   ---------------------------------------------------------------------------
+   IE-REQ-01   Multi-Agent       The system shall gather information from 
+               Aggregation       multiple distributed agents and store the 
+                                 resultant data in local storage.
+
+   IE-REQ-02   Directed Topic    The system shall filter sources based on 
+               Filtering         specific topics (e.g., USA-Iran Geopolitics)
+                                 using pre-defined authoritative sources.
+
+   IE-REQ-03   Unified Storage   The system shall store raw data in a clear, 
+                                 structured, and unified JSON format.
+
+   IE-REQ-04   NOOP Protocol A   The system shall implement a NOOP function 
+                                 defined as: $f(a) \to 0$ where $a \in \mathbb{Z}$.
+
+   IE-REQ-05   NOOP Protocol B   The system shall support No-Operation (NOOP) 
+                                 instructions for process idling.
+
+   IE-REQ-06   Comm. Standard.   The system shall use FastAPI to standardise 
+                                 communication between the engine and agents, 
+                                 and to facilitate uniform scraping processes.
+
+   IE-REQ-07   Render Parsing    The system shall capture and parse the visual 
+                                 render of a source rather than relying on 
+                                 Social Network specific APIs.
+
+   IE-REQ-08   Text-Only Scope   The system shall parse text content only, 
+                                 discarding all images, video, audio, and 
+                                 speech data.
+
+
+   2.2 DATA TRANSFORMATION (DT)
+   ---------------------------------------------------------------------------
+   ID          TITLE             DESCRIPTION
+   ---------------------------------------------------------------------------
+   DT-REQ-01   Uniqueness        The system shall perform data cleansing and 
+               Verification      hashing to verify the uniqueness of records.
+
+   DT-REQ-02   Text Processing   The system shall support text extraction, 
+                                 parsing, splitting, and Regular Expressions.
+
+   DT-REQ-03   Feature Eng.      The system shall extract metadata including 
+                                 date, time, metatags, and EXIF data.
+
+   DT-REQ-04   Encoding          The system shall use Universal Character 
+               Standard          Encoding (UTF-8). This shall be implemented 
+                                 at 256 bits (1 byte for alphabet, 1 byte 
+                                 for coding logic).
+
+   DT-REQ-05   Auto-Formatting   The system shall automatically determine the 
+                                 file format based on the file extension.
+
+   DT-REQ-06   PDF Extraction    The system shall implement a PDF-to-text 
+                                 parser using the pyPDF wrapper library.
+
+   DT-REQ-07   Cryptographic     The system shall append an X509v3 certificate 
+               Evidence          to the records as evidence of the hashing 
+                                 integrity.
+
+
+   2.3 VECTOR DATABASE (VDB)
+   ---------------------------------------------------------------------------
+   ID          TITLE             DESCRIPTION
+   ---------------------------------------------------------------------------
+   VDB-REQ-01  Tokenization      The system shall provide a tokenizer function 
+                                 supporting BPE, SentencePiece, or Tiktoken.
+
+===============================================================================
+END OF DOCUMENT
+
+
+
+
+
+===============================================================================
+SYSTEM REQUIREMENTS SPECIFICATION (SyRS): INGESTION & DATA PROCESSING SYSTEM
+Version: 1.1 (Updated)
+Status: Draft
+Date: February 2026
+===============================================================================
+
+1. INTRODUCTION
+   This document defines the functional requirements and implementation tasks
+   for the Ingestion Engine, Data Transformation, and Vector Database.
+
+2. INGESTION ENGINE (IE) - FUNCTIONAL REQUIREMENTS & SPRINT MAPPING
+-------------------------------------------------------------------------------
+UC ID  | Feature Description        | Python Implementation Task      | Sprint
+-------|----------------------------|----------------------------------|--------
+IE-001 | Multi-agent data gathering | Implement a Playwright manager   | S1-FUNC04
+       | & local storage.           | to orchestrate multiple browser  |
+       |                            | instances for collection.        |
+-------|----------------------------|----------------------------------|--------
+IE-002 | Topic-based filtering      | Create a SourceFilter class      | S1-FUNC02
+       | (USA-Iran Geopolitics).    | using a whitelist of URLs and    |
+       |                            | keyword-based routing.           |
+-------|----------------------------|----------------------------------|--------
+IE-003 | Unified JSON structured    | Develop a DataExporter module    | S1-FUNC04
+       | storage.                   | that validates and writes to     |
+       |                            | standardised .json schemas.      |
+-------|----------------------------|----------------------------------|--------
+IE-004 | NOOP Functionality.        | Define:                          | S2-FUNC02
+       |                            | def noop_utility(a: int) -> int: |
+       |                            | return 0 for heartbeat logic.    |
+-------|----------------------------|----------------------------------|--------
+IE-005 | System NOOP.               | Implement an idle state handler  | S2-FUNC02
+       |                            | or "null" agent for testing      |
+       |                            | architecture connectivity.       |
+-------|----------------------------|----------------------------------|--------
+IE-007 | FastAPI Communication &    | Build a FastAPI endpoint for     | S3-FUNC04
+       | Render Capture.            | heartbeats; use Playwright       |
+       |                            | content() to capture rendered HTML.|
+-------|----------------------------|----------------------------------|--------
+IE-008 | Text-Only Parsing Logic.   | Create a TextExtractor using     | S2-FUNC04
+       |                            | BeautifulSoup to strip <img>,    |
+       |                            | <video>, and <audio> tags.       |
+-------------------------------------------------------------------------------
+
+3. DATA TRANSFORMATION (DT)
+-------------------------------------------------------------------------------
+ID      | Title                | Requirement Description
+--------|----------------------|-----------------------------------------------
+DT-001  | Uniqueness Verify    | Cleansing and hashing (SHA-256) for records.
+DT-002  | Text Processing      | Regex-based extraction and text splitting.
+DT-003  | Feature Engineering  | Extraction of Date, Time, Metatags, and EXIF.
+DT-004  | Character Encoding   | UTF-8 Standard (256-bit logic / 2-byte map).
+DT-005  | Auto-Format          | Dynamic file handling based on extension.
+DT-006  | PDF Wrapper          | pyPDF integration for ETL text extraction.
+DT-007  | Hash Evidence        | Attachment of X509v3 certificates to hashes.
+
+4. VECTOR DATABASE (VDB)
+-------------------------------------------------------------------------------
+ID      | Title                | Requirement Description
+--------|----------------------|-----------------------------------------------
+VDB-001 | Tokenizer Function   | Support for BPE, SentencePiece, or Tiktoken.
+
+===============================================================================
+END OF DOCUMENT

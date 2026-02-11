@@ -1,0 +1,51 @@
+INGESTION ENGINE
+1) Gather the information from multiple agents and store in local side
+2) Directed filtering of the sources based on topics (USA- Iran Geopolitics). With specific authorizative sources for the topic
+3) Storage data in a clear text but structured unified format like JSON
+4) Standardize the communication between the engine and the agentss.
+   Standardize the scrapping with FastAPI. 
+   Capture the render and parse instead of Social Network specific API
+5) Only text is parsed, discard images, video, audio, speech, etc.
+
+DATA TRANSFORMATION
+1) Cleasing, hashing to verify the uniquity
+2) Text extraction, parsing, Text splitting,  regular expressions
+3) Feature engineering: date, time, metatags, EXIF,  
+4) Universal character enconding (UTF-8)  256 bits (1 byte for the alphabet and 1 byte for the coding itself) (0-255)     
+5) Automatic fileformat depending of the extension.
+6) ETL PDF Parser to text pyPDF  (wrapper library)
+7) Add an X509v3 certificate as evidence of hashing
+
+VECTOR DATABSE
+1) Tokenizer function  (BPE, SentencePie, tiktoker)
+
+
+OPERATIONAL REQUIREMENT STANDARIZATION
+OR01. Ingestion Engine (IE)
+- Multi-Agent Aggregation: Orchestrate data collection from multiple distributed agents, centralizing the payload into local staging storage.
+- Directed Topic Filtering: Implement logic-based filtering focusing on specific domains (e.g., USA-Iran Geopolitics).
+- Authoritative Source Validation: Maintain a whitelist of high-authority sources per topic to ensure data integrity.
+- Unified Schema: All ingested data must be stored in a standardized, clear-text JSON format.
+- Interface Standardization: Use FastAPI to standardize the RESTful communication between the engine and agents.
+- Render-Based Parsing: To bypass social network-specific API limitations or obfuscation, capture the browser render (DOM) and parse the HTML directly.
+- Text-Only Constraint: Strictly extract text strings; discard all binary objects (images, video, audio).
+
+OR02. Data Transformation (DT)
+- Deduplication & Integrity: Use cryptographic hashing (e.g., SHA-256) during the cleansing phase to verify uniqueness and prevent redundant processing.
+- Processing Pipeline: Execute text extraction, regex-based cleaning, and semantic text splitting (chunking) for downstream LLM compatibility.
+- Feature Engineering: Extract and normalize metadata, including timestamps, tags, and available EXIF data.
+- Encoding Standards: All data must be handled in UTF-8.
+- Note on Encoding: UTF-8 is actually a variable-width encoding (1 to 4 bytes). Standard Latin characters use 8 bits (1 byte), while complex symbols use more. The "256 bits" mentioned in your notes is likely a confusion with hashing lengths (like SHA-256); I have standardized this to UTF-8 for universal compatibility.
+- Format Agnostic Parsing: Automatic file-type detection based on extensions and MIME types.
+- PDF Extraction: Utilize a pyPDF wrapper for standardized ETL conversion from PDF to raw text.
+- Verification: Append an X.509v3 certificate to the data package as a digital signature/evidence of the hash integrity.
+
+OR03. Vector Database (VDB)
+- Advanced Tokenization: Support for modern tokenization libraries to prepare data for embedding models:
+  - BPE (Byte Pair Encoding)
+  - SentencePiece
+  - tiktoken (Optimized for OpenAI models)
+- Indexing & Retrieval: Ensure the VDB supports metadata filtering to align with the "Directed Filtering" requirement in the Ingestion phase.
+
+
+

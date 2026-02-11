@@ -1,0 +1,56 @@
+================================================================================
+          CAPSTONE PROJECT: MULTI-MODAL INTELLIGENCE PIPELINE (ADR-001)
+                    BLACKBOARD ASSIGNMENT & DIAGRAM FLOW
+================================================================================
+
+[MANAGER 1] -- THE GATEKEEPER (Ingestion)
+---------------------------------------
+REQ: FUNC04 (Web Scraping) & FUNC02 (SNA)
+TASK: Draw the data entry point.
+DIAGRAM:
+    [Cloud: Web/PDF/Social] --> [Playwright/BS4] --> [Text Chunks]
+SOLVES: High-latency data acquisition from dynamic sources.
+
+[MANAGER 2] -- THE LINGUIST (Transformation)
+------------------------------------------
+REQ: FUNC03 (Automatic Translation)
+TASK: Draw the language normalization bridge.
+DIAGRAM:
+    [Raw Text] --> (Ollama: Zero-Shot Translation) --> [Target Lang Text]
+SOLVES: Multilingual data compatibility before processing.
+
+[MANAGER 3] -- THE MEMORY ARCHITECT (Storage)
+-------------------------------------------
+REQ: Persistent Context (ChromaDB)
+TASK: Draw the 8GB RAM-efficient storage.
+DIAGRAM:
+    [Text] --> {FastEmbed} --> [(ChromaDB Local Disk Storage)]
+SOLVES: Keeping data accessible without filling physical RAM.
+
+[MANAGER 4] -- THE BRAIN (Intelligence)
+-------------------------------------
+REQ: FUNC01 (Sentiment Analysis)
+TASK: Draw the inference engine.
+DIAGRAM:
+    [Query] --> [[Llama 3.2:3b-instruct-q4_K_M]] --> [Sentiment Score]
+SOLVES: Running LLMs on consumer-grade hardware via 4-bit Quantization.
+
+[MANAGER 5] -- THE PATTERN FINDER (Clustering)
+--------------------------------------------
+REQ: FUNC05 (Topic Clustering)
+TASK: Draw the visualization logic.
+DIAGRAM:
+    [Vectors] --> (Sentence-Trans) --> {Matplotlib Cluster Map}
+SOLVES: Grouping massive datasets into human-readable topics.
+
+[MANAGER 6] -- THE VOICE (Output)
+-------------------------------
+REQ: FUNC06 (Text-to-Speech)
+TASK: Draw the final synthesis layer.
+DIAGRAM:
+    [Text Insight] --> [Piper / gTTS Engine] --> (( Audio Output ))
+SOLVES: Low-latency insight delivery and accessibility.
+
+================================================================================
+ PIPELINE RULE: "Collector -> Transformer -> Synthesizer" (Sequential Flow)
+================================================================================

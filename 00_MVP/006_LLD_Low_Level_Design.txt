@@ -1,0 +1,60 @@
+================================================================================
+          DETAILED DESIGN SPECIFICATION (LLD) - INTELLIGENCE PIPELINE
+================================================================================
+ID: LLD-01 | Status: Ready for Coding | Target: Python 3.10+
+================================================================================
+
+1. DATA MODELS (Pydantic Schema)
+--------------------------------------------------------------------------------
+To satisfy IE-REQ-03  and OR01, all modules must exchange 
+data using this unified JSON structure:
+
+class IntelligencePayload(BaseModel):
+    source_id: str          # SHA-256 hash of URL/Content
+    timestamp: datetime     # ISO 8601 format
+    content: str            # Cleaned UTF-8 text strings only
+    metadata: dict          # Authoritative source info, tags, EXIF
+    language: str           # Source language code
+    hash_signature: str     # X.509v3 signed hash
+    vector_id: Optional[str]# Reference for ChromaDB
+
+2. API CONTRACT (FastAPI Gateway)
+--------------------------------------------------------------------------------
+Per IE-REQ-06 and OR01, the Ingestion Engine exposes the following REST endpoints:
+- POST /ingest/submit:
+    - Payload: Raw HTML/PDF bytes -> Playwright/pyPDF processing.
+    - Logic: Strips <img>, <video>, <audio>.
+- GET /health/noop:
+    - Logic: Implements heartbeat f(a) -> 0
+- POST /transform/translate:
+    - Logic: Proxies to Manager 2 for zero-shot translation
+
+3. MEMORY MANAGEMENT (8GB RAM Optimization)
+--------------------------------------------------------------------------------
+- Sequential Garbage Collection:
+    - Explicitly call `del object` and `gc.collect()` after each Manager 
+      finishes processing a batch.
+- 4-Bit Quantization:
+    - Use `bitsandbytes` or `Ollama` to load Llama 3.2 (3B) with a memory 
+      footprint < 4GB.
+- ChromaDB Persistence:
+    - Initialize `PersistentClient` to avoid in-memory vector overhead.
+
+4. FILE STRUCTURE (Python Project)
+--------------------------------------------------------------------------------
+/project_root
+    /app
+        main.py             # FastAPI gateway entry point
+        /managers
+            m1_ingestion.py     # Playwright/BS4 based text extractor
+            m2_transformer.py   # Hashing, X.509v3 logic, and zero-shot translation.
+            m3_vdb.py           # ChromaDB and tokenization
+            m4_intelligence.py  # Ollama/Llama 3.2
+            m5_analytics.py     # Matplotlib
+            m6_output.py        # gTTS/Piper
+    /data
+        /raw_json           # IE-REQ-03 storage
+        /chroma_db          # Persistent VDB
+    /theory                 # Concept documentation
+    .env                    # Model paths and API keys
+================================================================================

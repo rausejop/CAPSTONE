@@ -1,0 +1,50 @@
+# ADR-001: Pipeline for Multi-Modal Intelligence Tool (8GB Optimized)
+
+## Status
+Accepted (Updated for 2026 Hardware Constraints)
+
+## Goal
+Generate a modular software local platform with one single module per function
+to gather information from disperse sources and generate insights regarding the input topics.
+
+## Context
+The system requires a unified processing pipeline to handle diverse data inputs 
+(Web, Social Media, PDFs) while operating within an Windows 11 with 8 GB free RAM overhead. 
+Target models include Llama 3.2 (3B) or Mistral Nemo (12B) using 4-bit 
+quantization to prevent OOM (Out of Memory) crashes.
+
+## Functional Requirements & Architecture Mapping
+| Code   | Requirement               | Implementation Detail (2026 Tech Stack)           |
+| :---   | :---                      | :---                                               |
+| FUNC01 | Sentiment Analysis        | LangChain + Ollama (Llama 3.2:3b-instruct-q4_K_M)  |
+| FUNC02 | Social Network Analysis   | Playwright (Headless) + Metadata Extraction        |
+| FUNC03 | Automatic Translation     | Ollama-based zero-shot translation                 |
+| FUNC04 | Web Scraping & Clipping   | LangChain WebBaseLoader / BeautifulBS4             |
+| FUNC05 | Topic Clustering          | ChromaDB (Persistent) + FastEmbed / Sentence-Trans |
+| FUNC06 | Text-to-Speech (TTS)      | gTTS or Piper (Low Latency / Low RAM)              |
+
+## Decision: Sequential Integrated Pipeline
+We utilize a "Collector-Transformer-Synthesizer" flow optimized for local CPU/GPU offloading:
+1. Ingestion: Playwright fetches dynamic content; PDFs are chunked via LangChain.
+2. Processing: Data is embedded into ChromaDB using memory-efficient 4-bit models.
+3. Intelligence: Mistral/Llama perform sentiment and clustering via Ollama API.
+4. Output: Command-line verbose logs + Matplotlib visualization of clusters.
+5. Theory: Put insinde 05_Theory directory important concepts used in this pipleine when used in the platform
+
+
+## Implementation Strategy
+1. Ingestion Strategy
+Instead of relying on social network-specific APIs (which are often restricted or paid), the engine will focus on DOM rendering. By capturing the full render via Playwright, we bypass anti-scraping measures that target traditional requests.
+
+2. Standardized Communication
+The engine acts as a server. Agents or scrapers report back to a FastAPI gateway. This ensures that regardless of the source, the data payload arriving at the Data Transformation (Module 2) is consistent.
+
+3. Data Integrity
+The "Text-Only" constraint (IE-008) is critical for the downstream Vector Storage (ChromaDB). Removing multimedia early reduces noise and token consumption in the Intelligence Layer.
+
+
+## Consequences
+* Pros: Runs on consumer-grade laptops; no API costs; 4-bit quantization keeps 
+  latency low.
+* Cons: Sequential processing is required to stay under the 8GB RAM ceiling; 
+  large PDF batches may require disk-swapping.
